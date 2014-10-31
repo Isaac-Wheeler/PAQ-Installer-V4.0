@@ -10,6 +10,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
+import client.PAQInstallerV4;
+import server.start;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
@@ -25,25 +29,27 @@ public class main {
 	private static PrintWriter out;
 	private static ArgsData argsData;
 
-	private static void logSetUp() {
-		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-		Date date = new Date();
-		try {
-			out = new PrintWriter(new FileWriter("PAQlog "
-					+ dateFormat.format(date) + ".txt"), true);
-		} catch (IOException e1) {
-			print(e1.getMessage(), true);
-			System.exit(1);
-		}
-
-	}
-
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		logSetUp();
 		optionRead(args);
+
+		if (ArgsData.isServer() == true) {
+			try {
+				start.svstart();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				// Starting Client Side GUI
+				PAQInstallerV4.display();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -81,6 +87,19 @@ public class main {
 
 	}
 
+	private static void logSetUp() {
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+		Date date = new Date();
+		try {
+			out = new PrintWriter(new FileWriter("PAQlog "
+					+ dateFormat.format(date) + ".txt"), true);
+		} catch (IOException e1) {
+			print(e1.getMessage(), true);
+			System.exit(1);
+		}
+
+	}
+
 	public static void print(String txtToPrint) {
 		out.println(txtToPrint);
 		out.flush();
@@ -90,6 +109,17 @@ public class main {
 		System.out.println(txtToPrint);
 		out.println(txtToPrint);
 		out.flush();
+	}
+
+	/**
+	 * main exit class closes log file before exiting
+	 * 
+	 * @param status
+	 *            if program is exiting with error or not
+	 */
+	public static void exit(int status) {
+		out.close();
+		System.exit(status);
 	}
 
 	/**
@@ -107,4 +137,16 @@ public class main {
 		main.argsData = argsData;
 	}
 
+	/**
+	 * message box pop up
+	 * 
+	 * @param infoMessage
+	 *            message that you want shown
+	 * @param location
+	 *            location that it is called from (not used often)
+	 */
+	public static void infoBox(String infoMessage, String location) {
+		JOptionPane.showMessageDialog(null, infoMessage,
+				"InfoBox: " + location, JOptionPane.INFORMATION_MESSAGE);
+	}
 }

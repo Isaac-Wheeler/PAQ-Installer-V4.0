@@ -16,7 +16,7 @@ public class ArgsData {
 	private String installLocation;
 
 	// is server install or not
-	private boolean server;
+	private static boolean server;
 
 	// version being installed
 	private String version;
@@ -35,7 +35,7 @@ public class ArgsData {
 			boolean server, String version) {
 		this.instanceName = instanceName;
 		this.installLocation = installLocation;
-		this.server = server;
+		ArgsData.server = server;
 		this.version = version;
 	}
 
@@ -49,7 +49,7 @@ public class ArgsData {
 	/**
 	 * @return the server
 	 */
-	public boolean isServer() {
+	public static boolean isServer() {
 		return server;
 	}
 
@@ -73,7 +73,7 @@ public class ArgsData {
 	 *            the server to set
 	 */
 	public void setServer(boolean server) {
-		this.server = server;
+		ArgsData.server = server;
 	}
 
 	/**

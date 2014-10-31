@@ -18,13 +18,13 @@ public class GetInstallInfo {
 	 * @return the installInfo object
 	 * @throws Exception
 	 */
-	public static InstallInfo JsonInfo(String version, String mod) throws Exception {
+	public static InstallInfo JsonInfo(String version, String installLocation) throws Exception {
 		Gson gson = new Gson();
 		BufferedReader br;
 
-		main.print(mod);
+		main.print(installLocation);
 		
-		br = read(mod);
+		br = read(installLocation);
 
 		Versioninfo Versioninfo = gson.fromJson(br, Versioninfo.class);
 
